@@ -1,0 +1,90 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<div class="row">
+    {% csrf_token %}
+    <div class="container text-center">
+        <div class="mb-1">
+            <!-- Post content-->
+            <article>
+                <!-- Post header-->
+                <header class="mb-1">
+                    <!-- Post title-->
+                    <div class="container text-center">
+                    <h1 class="fw-bolder mb-1">{{article.title}}</h1>
+                    
+                    <!-- Post meta content-->
+                    <div class="text-muted fst-italic mb-1">Yazan: <a href="{% url 'article:dashboard'%}">{{article.author.username}}</a></div>
+                </div>
+
+                </header>
+                <div class="container text-left">
+                    <p class="mb-4">{{article.content|safe}}</p>
+ 
+
+            </article>
+            <hr>
+            <div class="container text-center">
+            Oluşturulma Tarihi: {{article.created_date}}
+            </div>
+            <hr>
+            <p class="font-weight-bold text-info" style="font-size:18px;">Yorumlar</p>
+            <hr>
+     {% if comments %}
+     {% for comment in comments %}
+        <div class="text-left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+              </svg>
+              <label class="font-weight-bold" style="font-size:16px;">{{comment.comment_author}}</label>
+              
+              <div style="font-size:15px;">{{comment.comment_content}}</div>
+              <label lass="font-weight-bold" style="font-size:12px;">{{comment.comment_date}} tarihinde yorumda bulundu.</label>
+            
+              <hr>
+        </div>
+              {% endfor %}
+              {% else %}
+              <div class = "alert alert-warning">
+              Yorum Bulunamadı.
+              </div> 
+              {% endif %}
+        </div>
+        
+        <br>
+        <br>
+
+        <form method = "post" action="{% url 'article:comment' article.id %}">
+            {% csrf_token %}
+        
+            <div class="p-3 mb-2 bg-light text-white">
+                <label for="formGroupExampleInput" class="font-weight-bold text-dark" style="font-size:18px;">Yorum Ekle</label><br>
+                <input name = "comment_author" type="text" class="form-control" id="formGroupExampleInput" placeholder="Adın">
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label"></label>
+                <textarea name = "comment_content" class="form-control" id="exampleFormControlTextarea1" placeholder="..." rows="3"></textarea>
+                <br>
+                <button type="submit" class="btn btn-info btn-m lg float-right">Gönder</button>
+                <br>
+                
+                
+            </div>
+            </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <head>
+                <style>
+                body {
+                  background-color: white;
+                }
+                </style>
+                </head>
+                <body>
+            
+                
+{% endblock body %}

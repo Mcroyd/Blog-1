@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+
+<form>
+    <div class="container text-right">
+    <div class="input-group right">
+        <input type="search" class="form-control" name ="keyword"placeholder="Ara..." aria-label="Search" aria-describedby="search-addon" />
+        <button type ="submit" class ="fas fa-search"></button>
+      </div>
+    
+</form>
+</div>
+<br>
+
+
+{% if articles %}
+
+{% for article in articles %}
+<div class="row">
+    <div class="container text-center">
+        <div class="mb-1">
+            <!-- Post content-->
+            <article>
+                <!-- Post header-->
+                <header class="mb-1">
+                    <!-- Post title-->
+                    <div class="container text-center">
+                    <h1 class="fw-bolder mb-1">{{article.title}}</h1>
+                    
+                    <!-- Post meta content-->
+                    <div class="text-muted fst-italic mb-1">Yazan: <a href="{% url 'article:dashboard'%}">{{article.author.username}}</a></div>
+                </div>
+            </div>
+                </header>
+                <!-- Preview image figure-->
+                <!---<figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>-->
+                <!-- Post content-->
+                <div class="container text-left">
+                    <p class="mb-4">{{article.content|safe|truncatewords:100}}</p>
+                <a href="{% url 'article:detail' article.id %}">Devamını Oku...</a>
+                </div>
+
+            </article>
+            <hr>
+            <div class="container text-center">
+            Oluşturulma Tarihi: {{article.created_date}}
+            </div>
+            <hr>
+        </div>
+  
+
+    </div>
+    </div>
+
+{% endfor %}
+
+
+{% else %}
+<div class="alert alert-warning">Makale Bulunamadı.</div>
+{% endif %}    
+
+{% endblock body %}
